@@ -15,4 +15,5 @@ This project is a group collaboration to develop a web application for our unive
 - Cordun Diana
 - Danescu Adela
 - Hurloi Selena
+- Sandu Anastasia
 - Teleaga Dragos
