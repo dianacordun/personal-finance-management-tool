@@ -1,7 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const express = require("express");
 const router = express.Router();
-const validateToken = require("../middlewares/vatlidate-token");
+const validateToken = require("../middlewares/validate-token");
 
 router.post("/create-payment-intent", validateToken, async (req, res) => {
   try {
