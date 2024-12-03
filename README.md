@@ -11,6 +11,30 @@ This project is a group collaboration to develop a web application for our unive
 - React
 - Node. js
 
+
+# Build and run the project
+
+## Backend
+Make sure you have an `.env` file in the root of your `server` folder.
+Add the `MONGO_URL=<your_connection_string>` in the `.env` file.
+
+Go to the `server` folder and paste:
+```
+npm install // install required dependencies
+npm run dev or npm start
+```
+Your application should run by default on [port 5000](http://localhost:5000/).
+You should also see the following message: _Connected to MongoDB_
+
+## Frontend
+Go to the `client` folder and paste:
+```
+npm install // install required dependencies
+npm run dev
+```
+Your application should run by default on [port 5173](http://localhost:5173/).
+
+
 ## Group Members
 - Cordun Diana
 - Danescu Adela
