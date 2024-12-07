@@ -3,34 +3,42 @@ import usersGlobalStore, { UsersStoreType } from "../../../store/users-store";
 import { message } from "antd";
 import Spinner from "../../../components/spinner";
 import { createIncome, getAllIncomes, updateIncome, deleteIncome } from "../../../api-services/incomes-service";
+import { IncomeType } from "../../../interfaces";
 
 function Homepage() {
   const { currentUser } = usersGlobalStore() as UsersStoreType;
   const [loading, setLoading] = useState(false);
-  interface Income {
-    _id: string;
-    tag_id: string;
-    tag_name: string;
-  }
 
-  const [incomes, setIncomes] = useState<Income[]>([]);
-  const [incomeData, setIncomeData] = useState<Income>({ _id: "", tag_id: "", tag_name: "" });
+  const [incomes, setIncomes] = useState<IncomeType[]>([]);
+  const [incomeData, setIncomeData] = useState<IncomeType>({
+    _id: "",
+    tag_id: "",
+    tag_name: "",
+    createdAt: "",
+    updatedAt: "",
+  });
 
   useEffect(() => {
     setLoading(true);
-    getAllIncomes().then((data) => {
-      setIncomes(data);
-      setLoading(false);
-    }).catch(() => {
-      message.error("Failed to fetch incomes");
-      setLoading(false);
-    });
+    getAllIncomes()
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setIncomes(data);
+        } else {
+          setIncomes([]);
+        }
+      })
+      .catch(() => {
+        message.error("Failed to fetch incomes");
+        setIncomes([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const handleCreateIncome = async () => {
     try {
       const newIncome = await createIncome(incomeData);
-      setIncomes([...incomes, newIncome]);
+      setIncomes((prev) => [...prev, newIncome]);
       message.success("Income created successfully");
     } catch {
       message.error("Failed to create income");
@@ -40,7 +48,9 @@ function Homepage() {
   const handleUpdateIncome = async () => {
     try {
       const updatedIncome = await updateIncome(incomeData);
-      setIncomes(incomes.map(income => income._id === updatedIncome._id ? updatedIncome : income));
+      setIncomes((prev) =>
+        prev.map((income) => (income._id === updatedIncome._id ? updatedIncome : income))
+      );
       message.success("Income updated successfully");
     } catch {
       message.error("Failed to update income");
@@ -50,7 +60,7 @@ function Homepage() {
   const handleDeleteIncome = async (id: string) => {
     try {
       await deleteIncome({ _id: id });
-      setIncomes(incomes.filter(income => income._id !== id));
+      setIncomes((prev) => prev.filter((income) => income._id !== id));
       message.success("Income deleted successfully");
     } catch {
       message.error("Failed to delete income");
@@ -87,7 +97,7 @@ function Homepage() {
         <button onClick={handleUpdateIncome}>Update Income</button>
       </div>
       <ul>
-        {incomes.map((income) => (
+        {(incomes || []).map((income) => (
           <li key={income._id}>
             {income.tag_name}
             <button onClick={() => handleDeleteIncome(income._id)}>Delete</button>
