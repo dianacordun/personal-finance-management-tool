@@ -1,9 +1,17 @@
-
 import axios from "axios";
 
 export const createIncome = async (data: any) => {
-  const response = await axios.post("/api/incomes/create", data);
-  return response.data;
+  try {
+    const response = await axios.post("/api/incomes/create", data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error creating income:", error.response ? error.response.data : error.message);
+    } else {
+      console.error("Error creating income:", (error as Error).message);
+    }
+    throw error;
+  }
 };
 
 export const getAllIncomes = async () => {
