@@ -6,7 +6,10 @@ export const createIncome = async (data: any) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error creating income:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error creating income:",
+        error.response ? error.response.data : error.message
+      );
     } else {
       console.error("Error creating income:", (error as Error).message);
     }
@@ -20,11 +23,11 @@ export const getAllIncomes = async () => {
 };
 
 export const updateIncome = async (data: any) => {
-  const response = await axios.put("/api/incomes/update", data);
+  const response = await axios.put(`/api/incomes/update/${data._id}`, data);
   return response.data;
 };
 
 export const deleteIncome = async (data: any) => {
-  const response = await axios.delete("/api/incomes/delete", { data });
+  const response = await axios.delete(`/api/incomes/delete/${data._id}`);
   return response.data;
 };

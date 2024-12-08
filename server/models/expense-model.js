@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const IncomeSchema = new mongoose.Schema({
+const ExpenseSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -18,17 +18,23 @@ const IncomeSchema = new mongoose.Schema({
   tag_name: {
     type: String,
     enum: [
-      "salary",
-      "bonus",
+      "food",
+      "school",
+      "transport",
+      "health",
+      "entertainment",
+      "utilities",
+      "shopping",
+      "groceries",
+      "travel",
+      "rent",
+      "subscriptions",
+      "insurance",
+      "personal care",
+      "gifts",
+      "charity",
+      "savings",
       "investment",
-      "dividends",
-      "interest",
-      "rental income",
-      "freelance",
-      "refund",
-      "grant",
-      "pension",
-      "royalties",
       "others",
     ],
     default: "others",
@@ -48,6 +54,6 @@ const IncomeSchema = new mongoose.Schema({
   },
 });
 
-const IncomeModel = mongoose.model("Incomes", IncomeSchema);
+const Expense = mongoose.model("Expense", ExpenseSchema);
 
-module.exports = IncomeModel;
+module.exports = Expense;

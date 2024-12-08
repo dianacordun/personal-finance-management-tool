@@ -9,8 +9,52 @@ export interface UserType {
 
 export interface IncomeType {
   _id: string;
-  tag_id: string;
-  tag_name: string;
-  createdAt: string;
-  updatedAt: string;
+  user_id: string;
+  amount: number;
+  description: string;
+  tag_name:
+    | "salary"
+    | "bonus"
+    | "investment"
+    | "dividends"
+    | "interest"
+    | "rental income"
+    | "freelance"
+    | "refund"
+    | "grant"
+    | "pension"
+    | "royalties"
+    | "others";
+  date: string;
+  recurring: boolean;
+  recurrence_interval: "daily" | "weekly" | "monthly" | "yearly";
+}
+
+export interface ExpenseType {
+  _id: string;
+  user_id: string;
+  amount: number;
+  description: string;
+  tag_name:
+    | "food"
+    | "school"
+    | "transport"
+    | "health"
+    | "entertainment"
+    | "utilities"
+    | "shopping"
+    | "groceries"
+    | "travel"
+    | "rent"
+    | "subscriptions"
+    | "insurance"
+    | "personal care"
+    | "gifts"
+    | "charity"
+    | "savings"
+    | "investment"
+    | "others";
+  date: string;
+  recurring: boolean;
+  recurrence_interval: "daily" | "weekly" | "monthly" | "yearly";
 }
