@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { generate2FA, verify2FA } from "../api-services/users-service";
+import { generate2FA, verify2FA} from "../api-services/users-service";
+import usersGlobalStore, { UsersStoreType } from "../store/users-store";
 
-const TwoFactorAuth = ({ userId }: { userId: string }) => {
+function TwoFactorAuth() {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [token, setToken] = useState("");
   const [message, setMessage] = useState("");
+  const { currentUser }: UsersStoreType = usersGlobalStore() as UsersStoreType;
+
+  if (!currentUser) return null;
 
   const handleGenerate2FA = async () => {
     try {
-      const data = await generate2FA(userId);
+      const data = await generate2FA(currentUser._id);
       setQrCode(data.qrCode);
     } catch (err) {
       setMessage("Error generating 2FA setup.");
@@ -17,7 +21,7 @@ const TwoFactorAuth = ({ userId }: { userId: string }) => {
 
   const handleVerify2FA = async () => {
     try {
-      const data = await verify2FA(userId, token);
+      const data = await verify2FA(currentUser._id, token);
       setMessage(data.message);
     } catch (err: any) {
       setMessage(err.response?.data?.message || "Error verifying 2FA.");

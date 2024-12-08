@@ -49,17 +49,6 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
-    // if 2FA is enabled, verify the OTP
-    if (user.twoFactorEnabled) {
-      const verified = speakeasy.totp.verify({
-        secret: user.googleAuthSecret,
-        encoding: "base32",
-        token,
-      });
-
-      if (!verified) return res.status(403).send("Invalid 2FA token");
-    }
-
     // create and assign a token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
 
@@ -114,10 +103,10 @@ router.post("/generate-2fa", async (req, res) => {
 
     // Generate a secret
     const secret = speakeasy.generateSecret({
-      name: `WealthWise (${user.email})`,
+      name: `WealthWise (${user.email})`
     });
 
-    // Save the secret in the user's record but do not enable 2FA yet
+    // Save the secret in the user's record
     user.googleAuthSecret = secret.base32;
     await user.save();
 
@@ -141,6 +130,10 @@ router.post("/verify-2fa", async (req, res) => {
     if (!user || !user.googleAuthSecret) {
       return res.status(400).send("2FA is not set up for this user");
     }
+  
+
+    console.log(typeof(user.googleAuthSecret));
+    console.log(typeof(validateToken));
 
     const verified = speakeasy.totp.verify({
       secret: user.googleAuthSecret,
@@ -149,7 +142,7 @@ router.post("/verify-2fa", async (req, res) => {
     });
 
     if (verified) {
-      user.twoFactorEnabled = true; // Enable 2FA
+      //user.twoFactorEnabled = true;
       await user.save();
       res.send({ success: true, message: "2FA verified and enabled" });
     } else {

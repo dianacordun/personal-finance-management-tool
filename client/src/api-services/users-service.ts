@@ -5,11 +5,6 @@ export const registerUser = async (data: never) => {
   return response.data;
 };
 
-// Utility function to call loginUser
-export const loginUserWithParams = (data: any) => {
-  return loginUser(data as never);
-};
-
 export const loginUser = async (data: never) => {
   const response = await axios.post("/api/users/login", data);
   return response.data;
@@ -34,7 +29,6 @@ export const generate2FA = async (userId: string) => {
   const response = await axios.post("/api/users/generate-2fa", { userId });
   return response.data;
 };
-
 
 export const verify2FA = async (userId: string, token: string) => {
   const response = await axios.post("/api/users/verify-2fa", { userId, token });
