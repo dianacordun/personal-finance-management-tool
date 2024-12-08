@@ -7,6 +7,7 @@ import ProfilePage from "./pages/private/profile";
 import PublicLayout from "./layouts/public-layout";
 import PrivateLayout from "./layouts/private-layout";
 import UsersPage from "./pages/private/admin/users";
+import TwoFactorAuth from "./components/two-factor-auth";
 // ...existing code...
 
 function App() {
@@ -43,6 +44,14 @@ function App() {
             element={
               <PrivateLayout>
                 <ProfilePage />
+              </PrivateLayout>
+            }
+          />
+          <Route
+            path="/2fa"
+            element={
+              <PrivateLayout>
+                <TwoFactorAuth />
               </PrivateLayout>
             }
           />

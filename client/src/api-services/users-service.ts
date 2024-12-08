@@ -24,3 +24,13 @@ export const updateUserData = async (data: any) => {
   const response = await axios.put("/api/users/update-user", data);
   return response.data;
 }
+
+export const generate2FA = async (userId: string) => {
+  const response = await axios.post("/api/users/generate-2fa", { userId });
+  return response.data;
+};
+
+export const verify2FA = async (userId: string, token: string) => {
+  const response = await axios.post("/api/users/verify-2fa", { userId, token });
+  return response.data;
+};

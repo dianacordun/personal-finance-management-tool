@@ -29,6 +29,13 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: true,
     },
+    googleAuthSecret: { 
+      type: String 
+    },
+    twoFactorEnabled: { 
+      type: Boolean, 
+      default: false 
+    },
   },
   { timestamps: true }
 );
