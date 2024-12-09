@@ -13,23 +13,32 @@ This project is a group collaboration to develop a web application for our unive
 
 
 # Build and run the project
-
+In the root folder of the project paste the command below to install required dependencies at project level.
+```
+npm install
+```
 ## Backend
 Make sure you have an `.env` file in the root of your `server` folder.
 Add the `MONGO_URL=<your_connection_string>` in the `.env` file.
+> [!WARNING]
+> Don't forget to add your ip address in [MongoDB Atlas Cloud Database](https://cloud.mongodb.com/v2/6741940615d0a0648f9e2be0#/overview).
 
 Go to the `server` folder and paste:
 ```
-npm install // install required dependencies
+npm install // install required dependencies on the backend
 npm run dev or npm start
 ```
 Your application should run by default on [port 5000](http://localhost:5000/).
-You should also see the following message: _Connected to MongoDB_
+You should also see the following messages: 
+```
+Connected to MongoDB
+Connected to database: wealth_wise
+```
 
 ## Frontend
 Go to the `client` folder and paste:
 ```
-npm install // install required dependencies
+npm install // install required dependencies on the frontend
 npm run dev
 ```
 Your application should run by default on [port 5173](http://localhost:5173/).
