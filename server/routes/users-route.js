@@ -92,7 +92,7 @@ router.put("/update-user", validateToken, async (req, res) => {
   }
 });
 
-// Generate a QR code for Google Authenticator
+// generate a QR code for Google Authenticator
 router.post("/generate-2fa", async (req, res) => {
   const { userId } = req.body;
 
@@ -120,7 +120,7 @@ router.post("/generate-2fa", async (req, res) => {
   }
 });
 
-
+// verify an otp 
 router.post("/verify-2fa", async (req, res) => {
   const { userId, token } = req.body;
 
@@ -149,6 +149,5 @@ router.post("/verify-2fa", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
-
 
 module.exports = router;
