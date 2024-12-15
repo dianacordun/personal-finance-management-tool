@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Expense = require("../models/expense-model");
+const Budget = require("../models/budget-model");
 const validateToken = require("../middlewares/validate-token");
 const validateExpense = require("../validators/expense-validator");
 const validateUpdateExpense = require("../validators/update-expense-validator");
+const sendEmail=require("../helpers/send-email")
 
 // Create expense
 router.post("/create", validateToken, validateExpense, async (req, res) => {
@@ -18,12 +20,34 @@ router.post("/create", validateToken, validateExpense, async (req, res) => {
 
     const newExpense = new Expense(expenseData);
     await newExpense.save();
+    const budgets = await Budget.find({ user_id: userId }).sort({ date: -1 });
+    const expenses = await Expense.find({ user_id: userId }).sort({ date: -1 });
+
+    const expenseTotalsByTag = expenses.reduce((acc, expense) => {
+      acc[expense.tag_name] = (acc[expense.tag_name] || 0) + expense.amount;
+      return acc;
+    }, {});
+
+    // Check if any expense exceeds the budget threshold and send email
+    budgets.forEach(budget => {
+      if (expenseTotalsByTag[budget.tag_name] >= budget.notification_threshold) {
+        const emailContent = {
+          email: "dragosteleaga@gmail.com",
+          subject: "Expense Notification",
+          text: `Your ${budget.tag_name} expense has exceeded the threshold.`,
+          html: `Your ${budget.tag_name} expense has exceeded the threshold.`
+        };
+        sendEmail(emailContent);
+      }
+    });
+
 
     return res.status(201).json({ message: "Expense created successfully" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
+
 
 router.get("/get-all", validateToken, async (req, res) => {
   try {
@@ -39,7 +63,6 @@ router.get("/get-all", validateToken, async (req, res) => {
 });
 
 const mongoose = require("mongoose");
-
 // Get expense by ID
 router.get("/get/:id", validateToken, async (req, res) => {
   try {
