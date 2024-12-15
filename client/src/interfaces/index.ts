@@ -58,3 +58,31 @@ export interface ExpenseType {
   recurring: boolean;
   recurrence_interval: "daily" | "weekly" | "monthly" | "yearly";
 }
+
+export interface BudgetType {
+  _id: string;
+  user_id: string;
+  limit: number;
+  notification_threshold: number;
+  tag_name:
+      | "food"
+      | "school"
+      | "transport"
+      | "health"
+      | "entertainment"
+      | "utilities"
+      | "shopping"
+      | "groceries"
+      | "travel"
+      | "rent"
+      | "subscriptions"
+      | "insurance"
+      | "personal care"
+      | "gifts"
+      | "charity"
+      | "savings"
+      | "investment"
+      | "others";
+  date: string;
+  occupied: number;
+}
