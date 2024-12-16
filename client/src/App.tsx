@@ -8,6 +8,7 @@ import PublicLayout from "./layouts/public-layout";
 import PrivateLayout from "./layouts/private-layout";
 import UsersPage from "./pages/private/admin/users";
 import TwoFactorAuth from "./components/two-factor-auth";
+import ReportsPage from "./pages/private/reports";
 // ...existing code...
 
 function App() {
@@ -47,6 +48,14 @@ function App() {
               </PrivateLayout>
             }
           />
+            <Route
+                path="/report"
+                element={
+                    <PrivateLayout>
+                        <ReportsPage />
+                    </PrivateLayout>
+                }
+            />
           <Route
             path="/2fa"
             element={

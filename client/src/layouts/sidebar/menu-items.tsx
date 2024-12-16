@@ -1,4 +1,5 @@
 import {
+  BarChart,
   Home,
   LogOut,
   User,
@@ -30,6 +31,12 @@ function MenuItems() {
       path: "/profile",
       icon: <User size={iconSize} />,
       isActive: currentPath === "/profile",
+    },
+    {
+      name: "Reports",
+      path: "/report",
+      icon: <BarChart size={iconSize} />,
+      isActive: currentPath === "/report",
     },
     {
       name: "Logout",
