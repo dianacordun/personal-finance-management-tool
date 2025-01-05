@@ -25,6 +25,23 @@ export const updateUserData = async (data: any) => {
   return response.data;
 }
 
+export const enableTwoFactor = async (userId: string, token: string) => {
+  try {
+    const response = await axios.put(
+      '/api/users/enable-2fa',
+      { userId, twoFactorEnabled: true },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const generate2FA = async (userId: string) => {
   const response = await axios.post("/api/users/generate-2fa", { userId });
   return response.data;

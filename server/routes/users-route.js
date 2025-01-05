@@ -52,7 +52,12 @@ router.post("/login", async (req, res) => {
     // create and assign a token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
 
-    return res.status(200).json({ token, message: "Login successfull" });
+    return res.status(200).json({
+      token,
+      user: {
+        twoFactorEnabled: user.twoFactorEnabled, // include 2FA status
+      },
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -87,6 +92,23 @@ router.put("/update-user", validateToken, async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.body.userId, req.body);
     return res.status(200).json({ message: "User updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+// set twoFactorEnabled to true for a user
+router.put("/enable-2fa", async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1]; // extract token from Authorization header
+    if (!token) return res.status(400).json({ message: "Token is required." });
+
+    const { userId } = req.body;
+    if (!userId) return res.status(400).json({ message: "User ID is required." });
+
+    // Proceed with enabling 2FA
+    await User.findByIdAndUpdate(userId, { twoFactorEnabled: true });
+    return res.status(200).json({ message: "Two-factor authentication enabled successfully." });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

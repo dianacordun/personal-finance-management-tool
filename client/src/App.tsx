@@ -33,6 +33,14 @@ function App() {
             }
           />
           <Route
+            path="/2fa"
+            element={
+              <PublicLayout>
+                <TwoFactorAuth />
+              </PublicLayout>
+            }
+          />
+          <Route
             path="/"
             element={
               <PrivateLayout>
@@ -56,14 +64,6 @@ function App() {
                     </PrivateLayout>
                 }
             />
-          <Route
-            path="/2fa"
-            element={
-              <PrivateLayout>
-                <TwoFactorAuth />
-              </PrivateLayout>
-            }
-          />
           {/* Remove the admin events routes */}
           {/* <Route
             path="/admin/events"
