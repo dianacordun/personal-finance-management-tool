@@ -4,6 +4,7 @@ import {
   LogOut,
   User,
   UsersRound,
+  Star,
 } from "lucide-react";
 
 import { useLocation, useNavigate } from "react-router-dom";
@@ -37,6 +38,12 @@ function MenuItems() {
       path: "/report",
       icon: <BarChart size={iconSize} />,
       isActive: currentPath === "/report",
+    },
+    {
+      name: "Premium Advice",
+      path: "/financial_advice",
+      icon: <Star size={iconSize} />,
+      isActive: currentPath === "/financial_advice",
     },
     {
       name: "Logout",

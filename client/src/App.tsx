@@ -9,7 +9,7 @@ import PrivateLayout from "./layouts/private-layout";
 import UsersPage from "./pages/private/admin/users";
 import TwoFactorAuth from "./components/two-factor-auth";
 import ReportsPage from "./pages/private/reports";
-// ...existing code...
+import FinancialAdvicePage from "./pages/private/advice";
 
 function App() {
   return (
@@ -56,14 +56,23 @@ function App() {
               </PrivateLayout>
             }
           />
-            <Route
-                path="/report"
-                element={
-                    <PrivateLayout>
-                        <ReportsPage />
-                    </PrivateLayout>
-                }
-            />
+          <Route
+              path="/report"
+              element={
+                  <PrivateLayout>
+                      <ReportsPage />
+                  </PrivateLayout>
+              }
+          />
+          <Route
+            path="/financial_advice"
+            element={
+              <PrivateLayout>
+                <FinancialAdvicePage />
+              </PrivateLayout>
+            }
+          />
+
           {/* Remove the admin events routes */}
           {/* <Route
             path="/admin/events"
@@ -86,15 +95,6 @@ function App() {
             element={
               <PrivateLayout>
                 <EditEventPage />
-              </PrivateLayout>
-            }
-          /> */}
-          {/* Remove the event info route */}
-          {/* <Route
-            path="/event/:id"
-            element={
-              <PrivateLayout>
-                <EventInfoPage />
               </PrivateLayout>
             }
           /> */}
