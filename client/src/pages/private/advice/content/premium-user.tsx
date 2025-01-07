@@ -9,6 +9,16 @@ const PremiumUserContent = () => {
   const [personalizedAdvice, setPersonalizedAdvice] = useState("");
   const [loadingPersonalized, setLoadingPersonalized] = useState(false);
 
+  const formatText = (text: string) => {
+    const pattern = /(\d+\.\s*)([^:\n]+)(:)/g;
+    const replaced = text.replace(
+      pattern,
+      `\n<strong>$1$2$3</strong>`
+    );
+
+    return replaced;
+  };
+
   const handleGenerateAdvice = async () => {
     if (!prompt.trim()) return;
     setLoading(true);
@@ -16,7 +26,8 @@ const PremiumUserContent = () => {
 
     try {
       const result = await getLLMAdvice(prompt);
-      const formattedAdvice = result.replace(/\d+\./g, "\n$&"); 
+      const formattedAdvice = formatText(result);
+
       setAdvice(formattedAdvice);
 
       setPrompt("");
@@ -33,7 +44,8 @@ const PremiumUserContent = () => {
 
     try {
       const result = await getPersonalizedLLMAdvice();
-      const formattedPersonalizedAdvice = result.replace(/\d+\./g, "\n$&"); 
+      const formattedPersonalizedAdvice = formatText(result);
+
       setPersonalizedAdvice(formattedPersonalizedAdvice);
 
       setPrompt("");
@@ -92,7 +104,10 @@ const PremiumUserContent = () => {
       {advice && (
         <div style={{ marginTop: "20px" }}>
           <h2 className="text-xl font-semibold mb-2">Advice:</h2>
-          <pre style={{ whiteSpace: "pre-wrap" }}>{advice}</pre>
+          <div
+            style={{ whiteSpace: "pre-wrap" }}
+            dangerouslySetInnerHTML={{ __html: advice }}
+          />
         </div>
       )}
 
@@ -101,7 +116,10 @@ const PremiumUserContent = () => {
           <h2 className="text-xl font-semibold mb-2">
             Personalized Advice based on your Incomes &amp; Expenses:
           </h2>
-          <pre style={{ whiteSpace: "pre-wrap" }}>{personalizedAdvice}</pre>
+          <div
+            style={{ whiteSpace: "pre-wrap" }}
+            dangerouslySetInnerHTML={{ __html: personalizedAdvice }}
+          />
         </div>
       )}
     </div>
