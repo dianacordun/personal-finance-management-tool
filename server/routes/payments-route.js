@@ -74,7 +74,6 @@ router.post("/create-payment-intent", validateToken, async (req, res) => {
   }
 });
 
-// check whether a user is premium or not
 router.get("/is-premium", validateToken, async (req, res) => {
   try {
     const userId = req.user._id;

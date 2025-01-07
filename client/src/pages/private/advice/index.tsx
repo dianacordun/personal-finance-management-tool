@@ -9,7 +9,6 @@ const FinancialAdvicePage = () => {
   const [isPremium, setIsPremium] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Fetch the premium status when the component mounts
   useEffect(() => {
     const checkPremiumStatus = async () => {
       try {

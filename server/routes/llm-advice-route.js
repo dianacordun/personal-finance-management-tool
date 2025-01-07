@@ -40,7 +40,7 @@ router.post("/advice", validateToken, async (req, res) => {
         await user.save();
       }
 
-      if (user.llmUsage.monthlyRequests >= 50) {
+      if (user.llmUsage.monthlyRequests >= 5) {
         return res.status(403).json({
           message: "You have reached the free usage limit for this month. Please upgrade to premium for unlimited LLM requests."
         });
@@ -95,8 +95,8 @@ router.post("/personalized-advice", validateToken, async (req, res) => {
   
       const prompt = `
         I am a financial assistant AI. 
-        The user has the following total monthly income: ${totalIncome} RON
-        and total monthly expenses: ${totalExpenses} RON.
+        The user has the following total monthly income: ${totalIncome} $
+        and total monthly expenses: ${totalExpenses} $.
         The user wants personalized financial advice to optimize their spending and savings strategies. 
         Please provide suggestions on how to improve their finances based on these amounts.
       `;

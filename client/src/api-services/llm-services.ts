@@ -1,19 +1,21 @@
 import axios from "axios";
 
 export const getLLMAdvice = async (prompt: string): Promise<string> => {
-  try {
-    const response = await axios.post("/api/llm/advice", { prompt });
-    return response.data.advice;
-  } catch (error: any) {
-    // ... handling ...
-    throw new Error("Failed to get financial advice. Please try again.");
-  }
-};
+    try {
+      const response = await axios.post("/api/llm/advice", { prompt });
+      return response.data.advice;
+    } catch (error: any) {
+      if (error.response?.status === 403) {
+        throw new Error("403"); 
+      } else {
+        throw new Error("An error occurred. Please try again later.");
+      }
+    }
+  };
+  
 
-// NOU:
 export const getPersonalizedLLMAdvice = async (): Promise<string> => {
   try {
-    // Nu avem un prompt anume, doar apelăm direct endpoint-ul
     const response = await axios.post("/api/llm/personalized-advice");
     return response.data.advice;
   } catch (error: any) {
