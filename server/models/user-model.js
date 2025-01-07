@@ -36,6 +36,17 @@ const userSchema = new mongoose.Schema(
       type: Boolean, 
       default: false 
     },
+
+    llmUsage: {
+      monthlyRequests: {
+        type: Number,
+        default: 0,
+      },
+      lastReset: {
+        type: Date,
+        default: null,
+      },
+    },
   },
   { timestamps: true }
 );

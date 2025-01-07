@@ -50,38 +50,33 @@ console.log("Event Data:", event.data);
 router.post("/create-payment-intent", validateToken, async (req, res) => {
   const { amount } = req.body;
   
-  try 
-  {
+  try {
     const userId = req.user._id;
 
-    // Check if the user already has a payment record
+    // Verificăm dacă userul are deja payment
     const existingPayment = await PaymentModel.findOne({ user_id: userId });
     if (existingPayment) {
-      return res.status(400).json({ message: "Payment already exists." });
+      return res.status(400).json({ message: "Payment already exists (already premium)." });
     }
 
-    // Create the payment intent
+    // Creăm payment intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // ron - convert to smallest currency unit
+      amount: amount * 100, // convertim RON în bani (0.01 RON)
       currency: "ron",
       payment_method_types: ["card"],
       description: "WealthWise",
       metadata: { user_id: userId },
     });
 
-      return res.status(200).json({ clientSecret: paymentIntent.client_secret });
+    return res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
-      return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 
-// check whether a user is premium or not
 router.get("/is-premium", validateToken, async (req, res) => {
-  try
-  {
+  try {
     const userId = req.user._id;
-
-    // Check if the user already has a payment record
     const existingPayment = await PaymentModel.findOne({ user_id: userId });
     return res.status(200).json({ isPremium: !!existingPayment });
   } catch (error) {
