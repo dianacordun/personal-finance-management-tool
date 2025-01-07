@@ -24,6 +24,12 @@ const BasicUserContent = () => {
 
   const [limitReached, setLimitReached] = useState(false);
 
+  const formatText = (text: string) => {
+    return text
+      .replace(/\d+\./g, "\n$&")
+      .replace(/(\d+\.\s*[^:\n]+:)/g, "<strong>$1</strong>");
+  };
+
   const handleUpgradeClick = async () => {
     try {
       const { clientSecret } = await getClientSecret(24.99); 
@@ -36,7 +42,7 @@ const BasicUserContent = () => {
 
   const handlePaymentSuccess = () => {
     setShowPaymentForm(false);
-    window.location.reload(); 
+    window.location.reload();
   };
 
   if (showPaymentForm && clientSecret) {
@@ -54,9 +60,10 @@ const BasicUserContent = () => {
 
     try {
       const result = await getLLMAdvice(prompt);
-      const formattedAdvice = result.replace(/\d+\./g, "\n$&"); 
+
+      const formattedAdvice = formatText(result);
       setAdvice(formattedAdvice);
-      
+
       setPrompt("");
     } catch (error: any) {
       if (
@@ -80,7 +87,9 @@ const BasicUserContent = () => {
           Access Denied
         </h2>
         <p className="text-lg text-gray-800 mb-4">
-          You have reached your free monthly request limit. To continue receiving AI-powered financial advice, simply pay <strong>24.99 $</strong> to upgrade and enjoy unlimited requests.
+          You have reached your free monthly request limit. 
+          To continue receiving AI-powered financial advice, simply pay <strong>24.99 $</strong> 
+          to upgrade and enjoy unlimited requests.
         </p>
         <p className="text-lg text-gray-800 mb-6">
           This payment will give you access to all premium features, including:
@@ -152,7 +161,11 @@ const BasicUserContent = () => {
       {advice && (
         <div style={{ marginTop: "20px" }}>
           <h2>Advice:</h2>
-          <pre style={{ whiteSpace: "pre-wrap" }}>{advice}</pre>
+
+          <div
+            style={{ whiteSpace: "pre-wrap" }}
+            dangerouslySetInnerHTML={{ __html: advice }}
+          />
         </div>
       )}
     </div>
