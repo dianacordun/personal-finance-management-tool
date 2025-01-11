@@ -22,9 +22,6 @@ router.post("/webhook", async (req, res) => {
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object;
 
-    console.log("Event Type:", event.type);
-console.log("Event Data:", event.data);
-    
     try {
       const newPayment = new PaymentModel({
         payment_id: paymentIntent.id,

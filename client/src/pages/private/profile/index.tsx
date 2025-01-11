@@ -35,10 +35,6 @@ function ProfilePage() {
         )}
         {renderUserProperty("Role", currentUser?.isAdmin ? "Admin" : "User")}
       </div>
-
-      <div className="flex justify-end">
-        <Button>Edit Profile</Button>
-      </div>
     </div>
   );
 }
