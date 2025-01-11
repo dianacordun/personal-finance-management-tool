@@ -1,10 +1,12 @@
 const express = require("express");
 const { connectMongoDB } = require("./config/db-config");
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 const app = express();
 require("dotenv").config();
 
-connectMongoDB();
+if (process.env.NODE_ENV !== 'test') {
+  connectMongoDB();
+}
 
 function excludeWebhook(req, res, next) {
   if (req.originalUrl === "/api/payments/webhook") {
@@ -26,6 +28,10 @@ app.use("/api/llm", require("./routes/llm-advice-route"));
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`Node+Express Server is running on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Node+Express Server is running on port ${port}`);
+  });
+}
+
+module.exports = app;

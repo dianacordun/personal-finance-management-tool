@@ -7,6 +7,10 @@ const validateExpense = (req, res, next) => {
     return res.status(400).json({ message: "All fields are required." });
   }
 
+  if (typeof amount !== 'number' || amount < 0) {
+    return res.status(400).json({ message: "Amount must be a positive number." });
+}
+
   // Validate tag_name
   const allowedTags = [
     "salary",

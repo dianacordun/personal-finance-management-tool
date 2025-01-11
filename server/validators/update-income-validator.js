@@ -7,7 +7,7 @@ const validateUpdateExpense = (req, res, next) => {
   // Validate expense ID if present in params
   const expenseId = req.params.id;
   if (expenseId && !mongoose.isValidObjectId(expenseId)) {
-    return res.status(400).json({ message: "Invalid expense ID format" });
+    return res.status(400).json({ message: "Invalid income ID format" });
   }
 
   // Check if at least one field is provided
