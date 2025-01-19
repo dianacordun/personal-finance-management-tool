@@ -50,15 +50,15 @@ router.post("/create-payment-intent", validateToken, async (req, res) => {
   try {
     const userId = req.user._id;
 
-    // Verificăm dacă userul are deja payment
+    // check if user already has payment
     const existingPayment = await PaymentModel.findOne({ user_id: userId });
     if (existingPayment) {
       return res.status(400).json({ message: "Payment already exists (already premium)." });
     }
 
-    // Creăm payment intent
+    // create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // convertim RON în bani (0.01 RON)
+      amount: amount * 100, // convert RON to coins (0.01 RON)
       currency: "ron",
       payment_method_types: ["card"],
       description: "WealthWise",
@@ -71,7 +71,7 @@ router.post("/create-payment-intent", validateToken, async (req, res) => {
   }
 });
 
-router.get("/is-premium", validateToken, async (req, res) => {
+router.get("/is-premium-user", validateToken, async (req, res) => {
   try {
     const userId = req.user._id;
     const existingPayment = await PaymentModel.findOne({ user_id: userId });

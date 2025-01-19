@@ -56,7 +56,7 @@ describe('LLM Advice Routes', () => {
     token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY || 'testsecret'); 
   });
 
-  describe('POST /api/incomes/advice', () => {
+  describe('POST /api/llm/advice', () => {
     it('should return advice for non-premium user under limit', async () => {
       const prompt = "How can I save more money this month?";
 
@@ -73,7 +73,7 @@ describe('LLM Advice Routes', () => {
       });
 
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({ prompt });
 
@@ -108,7 +108,7 @@ describe('LLM Advice Routes', () => {
       });
 
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({ prompt });
 
@@ -128,7 +128,7 @@ describe('LLM Advice Routes', () => {
       });
 
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({ prompt });
 
@@ -162,7 +162,7 @@ describe('LLM Advice Routes', () => {
       });
 
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({ prompt });
 
@@ -178,7 +178,7 @@ describe('LLM Advice Routes', () => {
 
     it('should return 400 if prompt is missing', async () => {
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({});
 
@@ -192,7 +192,7 @@ describe('LLM Advice Routes', () => {
       await User.findByIdAndDelete(userId);
 
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({ prompt });
 
@@ -206,7 +206,7 @@ describe('LLM Advice Routes', () => {
       axios.post.mockRejectedValue(new Error('OpenAI API Error'));
 
       const res = await request(app)
-        .post('/api/incomes/advice')
+        .post('/api/llm/advice')
         .set('Cookie', [`token=${token}`])
         .send({ prompt });
 
@@ -218,7 +218,7 @@ describe('LLM Advice Routes', () => {
     });
   });
 
-  describe('POST /api/incomes/personalized-advice', () => {
+  describe('POST /api/llm/personalized-advice', () => {
     it('should return personalized advice for premium user', async () => {
       const payment = await Payment.create({
         payment_id: 'pay_123456',
@@ -252,7 +252,7 @@ describe('LLM Advice Routes', () => {
       });
 
       const res = await request(app)
-        .post('/api/incomes/personalized-advice')
+        .post('/api/llm/personalized-advice')
         .set('Cookie', [`token=${token}`])
         .send();
 
@@ -262,7 +262,7 @@ describe('LLM Advice Routes', () => {
 
     it('should prevent non-premium user from accessing personalized advice', async () => {
       const res = await request(app)
-        .post('/api/incomes/personalized-advice')
+        .post('/api/llm/personalized-advice')
         .set('Cookie', [`token=${token}`])
         .send();
 
@@ -292,7 +292,7 @@ describe('LLM Advice Routes', () => {
       });
 
       const res = await request(app)
-        .post('/api/incomes/personalized-advice')
+        .post('/api/llm/personalized-advice')
         .set('Cookie', [`token=${token}`])
         .send();
 
@@ -304,7 +304,7 @@ describe('LLM Advice Routes', () => {
       await User.findByIdAndDelete(userId);
 
       const res = await request(app)
-        .post('/api/incomes/personalized-advice')
+        .post('/api/llm/personalized-advice')
         .set('Cookie', [`token=${token}`])
         .send();
 
@@ -332,7 +332,7 @@ describe('LLM Advice Routes', () => {
       axios.post.mockRejectedValue(new Error('OpenAI API Error'));
 
       const res = await request(app)
-        .post('/api/incomes/personalized-advice')
+        .post('/api/llm/personalized-advice')
         .set('Cookie', [`token=${token}`])
         .send();
 

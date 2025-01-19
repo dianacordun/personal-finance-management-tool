@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { message } from "antd";
 import Spinner from "../../../components/spinner";
 import BasicUserContent from "./content/basic-user";
 import PremiumUserContent from "./content/premium-user";
+import { isPremiumUser } from "../../../api-services/payments-service";
 
 const FinancialAdvicePage = () => {
   const [isPremium, setIsPremium] = useState(false);
@@ -13,8 +13,8 @@ const FinancialAdvicePage = () => {
     const checkPremiumStatus = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/payments/is-premium");
-        setIsPremium(response.data.isPremium);
+        const response = await isPremiumUser();
+        setIsPremium(response);
       } catch (err) {
         message.error("Failed to fetch premium status. Please try again.");
       } finally {
